@@ -17,7 +17,7 @@ class TelegramBotTemplate:
             {"handlers/admin": ["callbacks.py", "text_handlers.py", "__init__.py"]}, 
             {"handlers/users": ["commands.py", "callbacks.py", "text_handlers.py", "__init__.py"]}
         ]
-        self.main_files = ["main.py", ".env.example"]
+        self.main_files = ["main.py", ".env.example", "test.py"]
         
 
 
@@ -54,6 +54,9 @@ class TelegramBotTemplate:
     
         with open(f"{self.location}/main.py", "a") as main:
             main.write(variables.MAIN)
+    
+        with open(f"{self.location}/test.py", "a") as test:
+            test.write(variables.TEST)
     
         with open(f"{self.location}/config/.env", "a") as env:
             env.write(variables.ENV)
