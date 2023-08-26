@@ -41,12 +41,12 @@ class TelegramBotTemplate:
 
         for data in self.dirs:
             for folder in data:
-                subprocess.Popen(f"mkdir {self.location}/{folder}/", shell=True)
+                subprocess.Popen(f"mkdir {self.location}{folder}/", shell=True)
                 for file in data[folder]:
-                    subprocess.Popen(f"touch {self.location}/{folder}/{file}", shell=True)
+                    subprocess.Popen(f"touch {self.location}{folder}/{file}", shell=True)
                     self.write_init_file(file, folder, data)      
                 if folder == "handlers":
-                    with open(f"{self.location}/{folder}/__init__.py", "a") as f:
+                    with open(f"{self.location}{folder}/__init__.py", "a") as f:
                         f.write(f"from . import admin\nfrom . import users")
 
         for f in self.main_files:

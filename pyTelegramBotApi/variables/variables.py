@@ -40,12 +40,13 @@ from config.loader import bot, db
 ADMINS = db.get_admins_telegram_id()
 
 def requared_admin(func):
-    def methods(message: Message):
-        if message.chat.id in ADMINS:
-            func(message)
+    def methods(call: CallbackQuery):
+        if call.chat.id in ADMINS:
+            func(call)
         else:
-            bot.send_message(message.chat.id, "Bu ammallar faqat adminlar uchun!!!")
+            bot.send_call(call.chat.id, "Bu ammallar faqat adminlar uchun!!!")
     return methods  
+
 """
 
 TEXT_HANDLER="""from telebot.types import Message
