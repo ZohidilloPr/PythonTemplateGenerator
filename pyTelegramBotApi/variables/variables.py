@@ -229,3 +229,20 @@ from config.loader import db
 from config.settings import *
 from datetime import datetime
 """
+SERVICE="""
+[Unit]
+Description=descripion of telegram bot
+After=network.target
+
+[Service]
+User={vps_user}
+WorkingDirectory=/home/{vps_user}/{bot_folder}
+ExecStart=/home/{vps_user}/{bot_folder}/online/bin/python main.py'
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+"""
+RESTART = """import os
+os.system('sudo systemctl restart {service_name}.service')
+"""

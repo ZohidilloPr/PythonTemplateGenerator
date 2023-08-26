@@ -31,7 +31,7 @@ def Main():
     if framework == "django":
         dJangoFramework(project_location, apps).generate_project()
     elif framework == "telebot":
-        TelegramBotTemplate(project_location).generate_template()
+        TelegramBotTemplate(project_location, project_name).generate_template()
 
 
 if __name__ == "__main__":

@@ -8,14 +8,16 @@ packeges = [
 ]
 
 class TelegramBotTemplate:
-    def __init__(self, project_location):
+    def __init__(self, project_location, project_name):
         self.location = project_location
+        self.project_name = project_name
         self.dirs = [
             {"config": ["loader.py", ".env", "settings.py", "database.py", "states.py", "__init__.py"]},
             {"keyboards": ["inline_markup.py", "relpy_markup.py", "__init__.py"]},
             {"handlers": ["__init__.py"]}, 
             {"handlers/admin": ["callbacks.py", "text_handlers.py", "__init__.py"]}, 
-            {"handlers/users": ["commands.py", "callbacks.py", "text_handlers.py", "__init__.py"]}
+            {"handlers/users": ["commands.py", "callbacks.py", "text_handlers.py", "__init__.py"]},
+            {"deploy": [f"{self.project_name}_bot.service", "restart.py"]}
         ]
         self.main_files = ["main.py", ".env.example", "test.py"]
         
@@ -96,4 +98,11 @@ class TelegramBotTemplate:
 
         with open(f"{self.location}/keyboards/relpy_markup.py", "a") as database:
             database.write(variables.REPLY_MARKUB)
+
+        with open(f"{self.location}deploy/restart.py", "a") as restart:
+            restart.write(variables.RESTART)
+
+        with open(f"{self.location}deploy/{self.project_name}_bot.service", "a") as service:
+            service.write(variables.SERVICE)
+
 
