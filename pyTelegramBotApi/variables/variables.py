@@ -83,7 +83,7 @@ from keyboards.inline_markup import help_btn
 
 
 # start coding
-@bot.message_handler(commands=["start", "help", "my_id])
+@bot.message_handler(commands=["start", "help", "my_id"])
 def reaction_commands(message: Message):
     chat_id = message.chat.id
     user_id = message.from_user.id
