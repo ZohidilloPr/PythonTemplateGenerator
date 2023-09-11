@@ -1,3 +1,4 @@
+#! /urs/bin/env python3.11
 import os
 import argparse
 from django_template.oop import dJangoFramework

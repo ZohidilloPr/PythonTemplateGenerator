@@ -8,7 +8,8 @@ from django_template.files import (settings, views_and_urls, templates)
 packeges_list = [
     "django", "django-cors-headers", "whitenoise", "drf-spectacular", 
     "drf-spectacular[sidecar]", "gunicorn", "djangorestframework",
-    "markdown", "django-filter", "psycopg2-binary", "python-decouple" 
+    "markdown", "django-filter", "psycopg2-binary", "python-decouple",
+    "django-quill-editor"
 ]
 
 class dJangoFramework:
@@ -18,20 +19,23 @@ class dJangoFramework:
 
     def generate_project(self):
         start_project = "django-admin startproject config ."
-        start_app = "python3 manage.py startapp "
+        start_app = "python3.11 manage.py startapp "
         os.system(f"cd {self.location} && {start_project}") 
-        os.system(f"cd {self.location} && python3 -m venv online && mkdir templates && mkdir static")
+        os.system(f"cd {self.location} && python3.11 -m venv online && mkdir templates && mkdir static")
         
         for pkg in packeges_list:
-            install_pkgs = f"{self.location}/online/bin/python -m pip install {pkg} >> {self.location}install_log.txt 2>&1"
-            pip_freeze = f"{self.location}/online/bin/python -m pip freeze > {self.location}/requarements.txt"
-            print(f"Installing: {pkg}")
+            install_pkgs = f"{self.location}/online/bin/python3.11 -m pip install {pkg} >> {self.location}install_log.txt 2>&1"
+            pip_freeze = f"{self.location}/online/bin/python3.11 -m pip freeze > {self.location}/requarements.txt"
+            print(f"[+] Installing: {pkg}")
             subprocess.Popen(f"{install_pkgs}", shell=True) # install packeges
-            subprocess.run(pip_freeze, shell=True) # add requarements text
 
         for app in self.apps:
             # make apps
             os.system(f"cd {self.location} && {start_app} {app}")
+
+        with open(f"{self.location}/requarements.txt", "w") as pkg:
+            for p in packeges_list:
+                pkg.write(f"{p}\n")
 
         with open(file=f"{self.location}/config/.env", mode="w") as ff:
             # write .env file in config folder 
@@ -52,7 +56,7 @@ class dJangoFramework:
             for index, line in enumerate(file, start=1):
                 if index == 45:
                     print(f"LOCAL_APPS = {local_apps}")
-                if index == 55:
+                if index == 59:
                     print("INSTALLED_APPS += LOCAL_APPS + GLOBAL_APPS")
                 else:
                     print(line, end="")

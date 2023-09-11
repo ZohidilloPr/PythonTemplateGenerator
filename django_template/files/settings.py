@@ -32,6 +32,7 @@ ALLOWED_HOSTS = [
 
 # Application definition
 INSTALLED_APPS = [
+    # "modeltranslation", for multi lang web site
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -45,10 +46,13 @@ INSTALLED_APPS = [
 
 GLOBAL_APPS = [
     "corsheaders",
+    "django_quill",
     "django_filters",
     "rest_framework",
     "drf_spectacular",
     "drf_spectacular_sidecar",
+    "rest_framework.authtoken",
+    "rest_framework_simplejwt.token_blacklist",
 ]
 
 
@@ -60,6 +64,7 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware", # for static files
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    # "django.middleware.locale.LocaleMiddleware", for multi lang web site 
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -143,6 +148,20 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Languages settings
+# from django.utils.translation import gettext_lazy as _
+
+# LANGUAGES = [
+#   ('uz', _("Uzbek")),
+    # add more 
+# ]
+
+# MODELTRANSLATION_DEFAULT_LANGUAGE = 'uz'
+
+# LOCALE_PATHS = (
+#     os.path.join(BASE_DIR, 'locale/'),
+# )
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
@@ -167,7 +186,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # EXTRA SETTINGS
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.AllowAny"
+        "rest_framework.permissions.AllowAny",
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication"
     ],
 
     "DEFAULT_FILTER_BACKENDS": (
@@ -185,6 +206,37 @@ SPECTACULAR_SETTINGS = {
     "REDOC_DIST": "SIDECAR",
     "POSTPROCESSING_HOOKS": []
 }
+
+# Simple JWT token settings
+# from datetime import timedelta
+# SIMPLE_JWT = {
+#     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+#     'REFRESH_TOKEN_LIFETIME': timedelta(days=3),
+#     'ROTATE_REFRESH_TOKENS': False,
+#     'BLACKLIST_AFTER_ROTATION': True,
+#     'UPDATE_LAST_LOGIN': False,
+
+#     'ALGORITHM': 'HS256',
+#     'SIGNING_KEY': SECRET_KEY,
+#     'VERIFYING_KEY': None,
+#     'AUDIENCE': None,
+#     'ISSUER': None,
+
+#     'AUTH_HEADER_TYPES': ('Bearer',),
+#     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+#     'USER_ID_FIELD': 'id',
+#     'USER_ID_CLAIM': 'user_id',
+#     'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
+
+#     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+#     'TOKEN_TYPE_CLAIM': 'token_type',
+
+#     'JTI_CLAIM': 'jti',
+
+#     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+#     'SLIDING_TOKEN_LIFETIME': timedelta(days=1),
+#     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=3),
+# }
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
